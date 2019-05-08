@@ -4,20 +4,29 @@ import { renderToString } from "react-dom/server"
 import Layout from "../components/layout"
 import { graphqlLongIdToShort } from "../lib/helpers"
 
+const imgUrl = img => {
+  const id = graphqlLongIdToShort(img.id)
+  return `https://brooklynrail-web.imgix.net/article_image/image/${id}/${
+    img.image
+  }`
+}
+
+const elForShortcode = (images, name) => {
+  const img = images.find(i => i.name === name)
+  const url = imgUrl(img)
+  return <img src={url} alt={img.caption} />
+}
+
+const replaceShortcodes = (images, body) =>
+  body.replace(/!!(\w+)!!/g, (match, shortcode) => {
+    const el = elForShortcode(images, shortcode)
+    return renderToString(el)
+  })
+
 export default ({ data }) => {
   const article = data.articlesResults
   const images = data.allArticleImagesResults.edges.map(i => i.node)
-
-  let body = article.body
-  body = body.replace(/!!(\w+)!!/g, (match, name) => {
-    const img = images.find(i => i.name === name)
-    const id = graphqlLongIdToShort(img.id)
-    const url = `https://brooklynrail-web.imgix.net/article_image/image/${id}/${
-      img.image
-    }`
-    const el = <img src={url} alt={img.caption} />
-    return renderToString(el)
-  })
+  const body = replaceShortcodes(images, article.body)
 
   return (
     <Layout>
