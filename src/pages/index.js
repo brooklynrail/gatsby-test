@@ -17,7 +17,9 @@ const IndexPage = ({ data }) => (
     <Link to="/page-2/">Go to page 2</Link>
     <ul>
       {data.allMySqlResults.edges.map(({ node }) => (
-        <li key={node.id}>{node.title}</li>
+        <li key={node.id}>
+          <a href={node.permalink}>{node.title}</a>
+        </li>
       ))}
     </ul>
   </Layout>
@@ -32,6 +34,7 @@ export const query = graphql`
         node {
           id
           title
+          permalink
         }
       }
     }
