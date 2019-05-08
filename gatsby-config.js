@@ -1,3 +1,11 @@
+const connectionDetails = {
+  host: `localhost`,
+  user: `brooklynrail`,
+  password: `devpass`,
+  database: `brooklynrail`,
+  port: 3307,
+}
+
 module.exports = {
   siteMetadata: {
     title: `Brooklyn Rail`,
@@ -30,16 +38,19 @@ module.exports = {
     {
       resolve: `gatsby-source-mysql`,
       options: {
-        connectionDetails: {
-          host: `localhost`,
-          user: `brooklynrail`,
-          password: `devpass`,
-          database: `brooklynrail`,
-          port: 3307,
-        },
+        connectionDetails,
         query: `SELECT * FROM articles WHERE permalink IS NOT NULL`,
         idFieldName: `id`,
         typePrefix: `Articles`,
+      },
+    },
+    {
+      resolve: `gatsby-source-mysql`,
+      options: {
+        connectionDetails,
+        query: `SELECT * FROM article_images`,
+        idFieldName: `id`,
+        typePrefix: `ArticleImages`,
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality

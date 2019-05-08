@@ -7,6 +7,7 @@
 // You can delete this file if you're not using it
 
 const path = require("path")
+const graphqlLongIdToShort = require(`./src/lib/helpers`).graphqlLongIdToShort
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
@@ -20,6 +21,7 @@ exports.createPages = ({ graphql, actions }) => {
           allArticlesResults(limit: 100) {
             edges {
               node {
+                id
                 permalink
               }
             }
@@ -30,12 +32,14 @@ exports.createPages = ({ graphql, actions }) => {
           reject(result.errors)
         }
 
-        result.data.allArticlesResults.edges.forEach(({ node }) => {
-          const permalink = node.permalink
+        result.data.allArticlesResults.edges.forEach(({ node: article }) => {
+          const permalink = article.permalink
+          const id = graphqlLongIdToShort(article.id)
           createPage({
             path: permalink,
             component: template,
             context: {
+              id,
               permalink,
             },
           })
