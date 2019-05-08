@@ -6,7 +6,7 @@ export default ({ data }) => {
   const article = data.mySqlResults
   return (
     <Layout>
-      <h1>{article.title}</h1>
+      <h1 dangerouslySetInnerHTML={{ __html: article.title }} />
     </Layout>
   )
 }
