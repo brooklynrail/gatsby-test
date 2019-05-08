@@ -3,7 +3,7 @@ import { graphql } from "gatsby"
 import Layout from "../components/layout"
 
 export default ({ data }) => {
-  const article = data.mySqlResults
+  const article = data.articlesResults
   return (
     <Layout>
       <h1 dangerouslySetInnerHTML={{ __html: article.title }} />
@@ -14,7 +14,7 @@ export default ({ data }) => {
 
 export const query = graphql`
   query($permalink: String!) {
-    mySqlResults(permalink: { eq: $permalink }) {
+    articlesResults(permalink: { eq: $permalink }) {
       title
       body
     }

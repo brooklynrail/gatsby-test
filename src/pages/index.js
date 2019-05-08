@@ -21,7 +21,7 @@ const IndexPage = ({ data }) => (
   <Layout>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
     <ul>
-      {data.allMySqlResults.edges.map(({ node: article }) =>
+      {data.allArticlesResults.edges.map(({ node: article }) =>
         renderArticle(article)
       )}
     </ul>
@@ -32,7 +32,7 @@ export default IndexPage
 
 export const query = graphql`
   query {
-    allMySqlResults(limit: 100) {
+    allArticlesResults(limit: 100) {
       edges {
         node {
           id

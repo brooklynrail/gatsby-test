@@ -17,7 +17,7 @@ exports.createPages = ({ graphql, actions }) => {
     resolve(
       graphql(`
         {
-          allMySqlResults(limit: 100) {
+          allArticlesResults(limit: 100) {
             edges {
               node {
                 permalink
@@ -30,7 +30,7 @@ exports.createPages = ({ graphql, actions }) => {
           reject(result.errors)
         }
 
-        result.data.allMySqlResults.edges.forEach(({ node }) => {
+        result.data.allArticlesResults.edges.forEach(({ node }) => {
           const permalink = node.permalink
           createPage({
             path: permalink,

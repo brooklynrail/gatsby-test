@@ -28,17 +28,18 @@ module.exports = {
       },
     },
     {
-      resolve: "gatsby-source-mysql",
+      resolve: `gatsby-source-mysql`,
       options: {
         connectionDetails: {
-          host: "localhost",
-          user: "brooklynrail",
-          password: "devpass",
-          database: "brooklynrail",
+          host: `localhost`,
+          user: `brooklynrail`,
+          password: `devpass`,
+          database: `brooklynrail`,
           port: 3307,
         },
-        query: "SELECT * FROM articles WHERE permalink IS NOT NULL",
-        idFieldName: "id",
+        query: `SELECT * FROM articles WHERE permalink IS NOT NULL`,
+        idFieldName: `id`,
+        typePrefix: `Articles`,
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
