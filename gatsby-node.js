@@ -32,7 +32,10 @@ exports.createPages = ({ graphql, actions }) => {
           reject(result.errors)
         }
 
-        result.data.allArticlesResults.edges.forEach(({ node: article }) => {
+        const allArticles = result.data.allArticlesResults.edges.map(
+          e => e.node
+        )
+        allArticles.forEach(article => {
           const permalink = article.permalink
           const id = graphqlLongIdToShort(article.id)
           createPage({
