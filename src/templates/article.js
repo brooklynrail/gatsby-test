@@ -1,5 +1,4 @@
 import React from "react"
-import { graphql } from "gatsby"
 import { renderToString } from "react-dom/server"
 import Layout from "../components/layout"
 import { graphqlLongIdToShort } from "../lib/helpers"
@@ -27,9 +26,7 @@ const replaceShortcodes = (images, body) =>
     return renderToString(el)
   })
 
-export default ({ data }) => {
-  const article = data.articlesResults
-  const images = data.allArticleImagesResults.edges.map(i => i.node)
+export default ({ pageContext: { article, images } }) => {
   const body = replaceShortcodes(images, article.body)
 
   return (
@@ -39,22 +36,3 @@ export default ({ data }) => {
     </Layout>
   )
 }
-
-export const query = graphql`
-  query($id: Int!, $permalink: String!) {
-    articlesResults(permalink: { eq: $permalink }) {
-      title
-      body
-    }
-    allArticleImagesResults(filter: { article_id: { eq: $id } }) {
-      edges {
-        node {
-          id
-          caption
-          image
-          name
-        }
-      }
-    }
-  }
-`
