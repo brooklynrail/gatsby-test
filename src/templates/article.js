@@ -13,6 +13,10 @@ const imgUrl = img => {
 
 const elForShortcode = (images, name) => {
   const img = images.find(i => i.name === name)
+  if (!img) {
+    console.error(`${name} not found.`)
+    return null
+  }
   const url = imgUrl(img)
   return <img src={url} alt={img.caption} />
 }
