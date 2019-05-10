@@ -7,13 +7,11 @@ import SEO from "../components/seo"
 import { getNodes } from "../lib/helpers"
 
 const renderArticle = article => {
+  const permalink = `/${article.permalink}`
   const title = striptags(article.title)
   return (
     <li key={article.id}>
-      <Link
-        to={article.permalink}
-        dangerouslySetInnerHTML={{ __html: title }}
-      />
+      <Link to={permalink} dangerouslySetInnerHTML={{ __html: title }} />
     </li>
   )
 }
