@@ -4,11 +4,12 @@ import Imgix from "react-imgix"
 
 import { graphqlLongIdToShort } from "./helpers"
 
+const imgHost = `https://brooklynrail-web.imgix.net`
+
 const imgUrl = img => {
   const id = graphqlLongIdToShort(img.id)
-  return `https://brooklynrail-web.imgix.net/article_image/image/${id}/${
-    img.image
-  }`
+  const path = `/article_image/image/${id}/${img.image}`
+  return imgHost + path
 }
 
 const elForShortcode = (images, name) => {

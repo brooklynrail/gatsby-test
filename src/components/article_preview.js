@@ -7,6 +7,7 @@ const ArticlePreview = props => {
   const title = striptags(props.title)
   return (
     <li>
+      {/* even though the tags are stripped, we want HTML entities to render */}
       <Link to={permalink} dangerouslySetInnerHTML={{ __html: title }} />
     </li>
   )
