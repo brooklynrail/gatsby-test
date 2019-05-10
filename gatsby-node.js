@@ -48,6 +48,8 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
       `).then(result => {
         if (result.errors) {
           reject(result.errors)
+          console.error(result.errors)
+          process.exit(1)
         }
 
         const allArticles = getNodes(result, `allArticlesResults`)
