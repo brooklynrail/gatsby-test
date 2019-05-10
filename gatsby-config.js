@@ -6,6 +6,14 @@ const connectionDetails = {
   port: 3307,
 }
 
+const numArticles = process.env.NUM_ARTICLES || "100"
+const articlesQuery = `
+  SELECT * FROM articles
+  WHERE permalink IS NOT NULL
+  ORDER BY created_at DESC
+  LIMIT ${numArticles}
+`
+
 module.exports = {
   siteMetadata: {
     title: `Brooklyn Rail`,
@@ -39,7 +47,7 @@ module.exports = {
       resolve: `gatsby-source-mysql`,
       options: {
         connectionDetails,
-        query: `SELECT * FROM articles WHERE permalink IS NOT NULL`,
+        query: articlesQuery,
         idFieldName: `id`,
         typePrefix: `Articles`,
       },

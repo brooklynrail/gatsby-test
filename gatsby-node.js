@@ -14,7 +14,7 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
     resolve(
       graphql(`
         {
-          allArticlesResults(limit: 100) {
+          allArticlesResults {
             edges {
               node {
                 id

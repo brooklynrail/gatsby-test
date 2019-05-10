@@ -16,3 +16,5 @@ To try out:
    ```
 
 1. Open http://localhost:8000.
+
+The `NUM_ARTICLES` environment variable can be used to scale how much of the site is built.
