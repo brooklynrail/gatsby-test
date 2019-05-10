@@ -4,6 +4,7 @@ import striptags from "striptags"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import { getNodes } from "../lib/helpers"
 
 const renderArticle = article => {
   const title = striptags(article.title)
@@ -17,16 +18,15 @@ const renderArticle = article => {
   )
 }
 
-const IndexPage = ({ data }) => (
-  <Layout>
-    <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-    <ul>
-      {data.allArticlesResults.edges.map(({ node: article }) =>
-        renderArticle(article)
-      )}
-    </ul>
-  </Layout>
-)
+const IndexPage = ({ data }) => {
+  const articles = getNodes(data, `allArticlesResults`)
+  return (
+    <Layout>
+      <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
+      <ul>{articles.map(article => renderArticle(article))}</ul>
+    </Layout>
+  )
+}
 
 export default IndexPage
 
