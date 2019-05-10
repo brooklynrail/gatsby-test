@@ -1,6 +1,8 @@
 import React from "react"
 import { graphql } from "gatsby"
 import { renderToString } from "react-dom/server"
+import Imgix from "react-imgix"
+
 import Layout from "../components/layout"
 import { getNodes, graphqlLongIdToShort } from "../lib/helpers"
 
@@ -18,7 +20,7 @@ const elForShortcode = (images, name) => {
     return null
   }
   const url = imgUrl(img)
-  return <img src={url} alt={img.caption} />
+  return <Imgix src={url} alt={img.caption} />
 }
 
 const replaceShortcodes = (images, body) =>
