@@ -47,18 +47,21 @@ module.exports = {
       resolve: `gatsby-source-mysql`,
       options: {
         connectionDetails,
-        query: articlesQuery,
-        idFieldName: `id`,
-        typePrefix: `Articles`,
-      },
-    },
-    {
-      resolve: `gatsby-source-mysql`,
-      options: {
-        connectionDetails,
-        query: `SELECT * FROM article_images`,
-        idFieldName: `id`,
-        typePrefix: `ArticleImages`,
+        queries: [
+          {
+            statement: articlesQuery,
+            idFieldName: `id`,
+            name: `article`,
+          },
+          {
+            statement: `SELECT * FROM article_images`,
+            idFieldName: `id`,
+            name: `article_image`,
+            parentName: `article`,
+            foreignKey: `article_id`,
+            cardinality: `OneToMany`,
+          },
+        ],
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
