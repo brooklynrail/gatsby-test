@@ -6,13 +6,12 @@ const connectionDetails = {
   port: 3307,
 }
 
-const numArticles = process.env.NUM_ARTICLES || "100"
-const articlesQuery = `
-  SELECT * FROM articles
+const articlesQuery = (select = `*`) => `
+  SELECT ${select} FROM articles
   WHERE permalink IS NOT NULL
   ORDER BY created_at DESC
-  LIMIT ${numArticles}
 `
+const imageSubquery = articlesQuery(`id`)
 
 module.exports = {
   siteMetadata: {
@@ -49,12 +48,13 @@ module.exports = {
         connectionDetails,
         queries: [
           {
-            statement: articlesQuery,
+            statement: articlesQuery(),
             idFieldName: `id`,
             name: `article`,
           },
           {
-            statement: `SELECT * FROM article_images`,
+            // exclude dangling images
+            statement: `SELECT * FROM article_images WHERE article_id IN (${imageSubquery})`,
             idFieldName: `id`,
             name: `article_image`,
             parentName: `article`,

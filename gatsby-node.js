@@ -7,6 +7,8 @@
 const path = require("path")
 const helpers = require(`./src/lib/helpers`)
 
+const numArticles = process.env.NUM_ARTICLES || "100"
+
 exports.createPages = ({ graphql, actions: { createPage } }) => {
   return new Promise((resolve, reject) => {
     const template = path.resolve(`src/templates/article.js`)
@@ -14,10 +16,9 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
     resolve(
       graphql(`
         {
-          allArticlesResults {
+          allMysqlArticle(limit: ${numArticles}) {
             edges {
               node {
-                id
                 permalink
               }
             }
@@ -30,15 +31,13 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
           process.exit(1)
         }
 
-        const articles = helpers.getNodes(result.data, `allArticlesResults`)
+        const articles = helpers.getNodes(result.data, `allMysqlArticle`)
         articles.forEach(article => {
           const permalink = article.permalink
-          const id = helpers.graphqlLongIdToShort(article.id)
           createPage({
             path: permalink,
             component: template,
             context: {
-              id,
               permalink,
             },
           })
