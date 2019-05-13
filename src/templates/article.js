@@ -2,13 +2,11 @@ import React from "react"
 import { graphql } from "gatsby"
 
 import Layout from "../components/layout"
-import { getNodes } from "../lib/helpers"
 import { replaceShortcodes } from "../lib/shortcodes"
 
 export default ({ data }) => {
-  const article = data.articlesResults
-  const images = getNodes(data, `allArticleImagesResults`)
-  const body = replaceShortcodes(images, article.body)
+  const article = data.mysqlArticle
+  const body = replaceShortcodes(article.article_images, article.body)
 
   return (
     <Layout>
@@ -19,19 +17,15 @@ export default ({ data }) => {
 }
 
 export const query = graphql`
-  query($id: Int!, $permalink: String!) {
-    articlesResults(permalink: { eq: $permalink }) {
+  query($permalink: String!) {
+    mysqlArticle(permalink: { eq: $permalink }) {
       title
       body
-    }
-    allArticleImagesResults(filter: { article_id: { eq: $id } }) {
-      edges {
-        node {
-          id
-          caption
-          image
-          name
-        }
+      article_images {
+        id
+        caption
+        image
+        name
       }
     }
   }

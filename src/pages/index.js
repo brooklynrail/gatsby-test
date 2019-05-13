@@ -7,7 +7,7 @@ import SEO from "../components/seo"
 import { getNodes } from "../lib/helpers"
 
 const IndexPage = ({ data }) => {
-  const articles = getNodes(data, `allArticlesResults`)
+  const articles = getNodes(data, `allMysqlArticle`)
   return (
     <Layout>
       <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
@@ -24,7 +24,7 @@ export default IndexPage
 
 export const query = graphql`
   query {
-    allArticlesResults(limit: 100) {
+    allMysqlArticle(limit: 100) {
       edges {
         node {
           id
