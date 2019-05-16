@@ -1,10 +1,21 @@
-const connectionDetails = {
-  host: `localhost`,
-  user: `brooklynrail`,
-  password: `devpass`,
-  database: `brooklynrail`,
-  port: 3307,
+const ConnectionString = require("connection-string")
+
+const getMySQLConnection = () => {
+  const cs =
+    process.env.DATABASE_URL ||
+    `mysql://brooklynrail:devpass@localhost:3307/brooklynrail`
+  const conn = new ConnectionString(cs)
+
+  return {
+    host: conn.hostname,
+    port: conn.port,
+    user: conn.user,
+    password: conn.password,
+    database: conn.path && conn.path[0],
+  }
 }
+
+const connectionDetails = getMySQLConnection()
 
 const articlesQuery = (select = `*`) => `
   SELECT ${select} FROM articles
