@@ -17,12 +17,22 @@ const getMySQLConnection = () => {
 
 const connectionDetails = getMySQLConnection()
 
+const numArticles = process.env.NUM_ARTICLES || "100"
 const articlesQuery = (select = `*`) => `
   SELECT ${select} FROM articles
   WHERE permalink IS NOT NULL
   ORDER BY created_at DESC
+  LIMIT ${numArticles}
 `
 const imageSubquery = articlesQuery(`id`)
+// hack to get around subquery limitation in MySQL
+// https://stackoverflow.com/a/7124492/358804
+const imgQuery = `
+  SELECT * FROM article_images
+  WHERE article_id IN (
+    SELECT * FROM (${imageSubquery}) AS t
+  )
+`
 
 module.exports = {
   siteMetadata: {
@@ -65,7 +75,7 @@ module.exports = {
           },
           {
             // exclude dangling images
-            statement: `SELECT * FROM article_images WHERE article_id IN (${imageSubquery})`,
+            statement: imgQuery,
             idFieldName: `id`,
             name: `article_image`,
             parentName: `article`,

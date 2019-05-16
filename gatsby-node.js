@@ -7,8 +7,6 @@
 const path = require("path")
 const helpers = require(`./src/lib/helpers`)
 
-const numArticles = process.env.NUM_ARTICLES || "100"
-
 exports.createPages = ({ graphql, actions: { createPage } }) => {
   return new Promise((resolve, reject) => {
     const template = path.resolve(`src/templates/article.js`)
@@ -16,7 +14,7 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
     resolve(
       graphql(`
         {
-          allMysqlArticle(limit: ${numArticles}) {
+          allMysqlArticle {
             edges {
               node {
                 permalink

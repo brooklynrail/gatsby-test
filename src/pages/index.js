@@ -24,7 +24,7 @@ export default IndexPage
 
 export const query = graphql`
   query {
-    allMysqlArticle(limit: 100) {
+    allMysqlArticle {
       edges {
         node {
           id
