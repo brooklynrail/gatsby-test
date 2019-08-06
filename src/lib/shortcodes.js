@@ -22,8 +22,23 @@ const elForShortcode = (images, name) => {
   return <Imgix src={url} alt={img.caption} />
 }
 
-export const replaceShortcodes = (images, body) =>
-  body.replace(/!!(\w+)!!/g, (match, shortcode) => {
+// Replaces out the shortcodes in the body
+const filterShortcodes = (images, body) => {
+
+  // New Images — [img name="img2" type="xl" /]
+  var body_text = body.replace(/\[img name="(\w+)" type="(\w+)" \/\]/g, (match, shortcode) => {
     const el = elForShortcode(images, shortcode)
     return renderToString(el)
   })
+
+  // Old images — !!img1!!
+  var body_text = body_text.replace(/!!(\w+)!!/g, (match, shortcode) => {
+    const el = elForShortcode(images, shortcode)
+    return renderToString(el)
+  })
+  return body_text
+
+}
+
+export const replaceShortcodes = (images, body) =>
+  filterShortcodes(images, body)
